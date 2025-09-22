@@ -32,9 +32,10 @@ int main()
         printf("MOCHILA DE SOBREVIVENCIA - CODIGO DA ILHA\n");
         printf("=========================================\n");
         printf("Itens da Mochila: %d/10\n\n", totalItens);
-        printf("1. Adicionar Item (Loot)\n");
+        printf("1. Adicionar\n");
         printf("2. Remover Item\n");
         printf("3. Listar Itens na Mochila\n");
+        printf("4. Buscar Item por Nome\n");
         printf("0. Sair\n");
         printf("------------------------------\n");
         printf("Escolha uma opção: ");
@@ -51,6 +52,9 @@ int main()
             break;
         case 3:
             listarItens();
+            break;
+        case 4:
+            buscarItem();
             break;
         case 0:
             printf("Saindo do sistema...\n");
@@ -158,32 +162,39 @@ void buscarItem()
     if (totalItens == 0)
     {
         printf("Mochila vazia! Não há itens para buscar.\n");
+        printf("\nPressione Enter para continuar...");
+        getchar();
         return;
     }
 
-    printf("\n--- Buscar Item ---\n");
+    printf("\n--- Buscar Item na Mochila ---\n");
     char nomeBusca[30];
 
-    printf("Digite o nome do item: ");
+    printf("Digite o nome do item que deseja buscar: ");
     fgets(nomeBusca, 30, stdin);
     nomeBusca[strcspn(nomeBusca, "\n")] = '\0';
 
     // Busca sequencial
+    int encontrado = 0;
     for (int i = 0; i < totalItens; i++)
     {
         if (strcmp(mochila[i].nome, nomeBusca) == 0)
         {
-            printf("\nItem encontrado:\n");
+            printf("\n--- Item Encontrado! ---\n");
             printf("Nome: %s\n", mochila[i].nome);
             printf("Tipo: %s\n", mochila[i].tipo);
             printf("Quantidade: %d\n", mochila[i].quantidade);
-            printf("\nPressione Enter para continuar...");
-            getchar();
-            return;
+            printf("------------------------\n");
+            encontrado = 1;
+            break;
         }
     }
 
-    printf("Item '%s' não encontrado!\n", nomeBusca);
+    if (!encontrado)
+    {
+        printf("\nResultado: Item '%s' NAO foi encontrado na mochila.\n", nomeBusca);
+    }
+
     printf("\nPressione Enter para continuar...");
     getchar();
 }
